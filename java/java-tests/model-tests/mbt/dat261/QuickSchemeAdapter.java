@@ -76,7 +76,7 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     assertThat(currScheme, is(prevScheme));
   }
 
-  // CS : Color Scheme
+// CS : Color Scheme
 
   public EditorColorsScheme getCurrentCS(){
     return EditorColorsManager.getInstance().getGlobalScheme();

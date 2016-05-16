@@ -37,11 +37,10 @@ public class QuickSchemeTest extends TestCase{
   public void testQuickScheme() throws Exception {
     SwingUtilities.invokeAndWait(() -> {
       QuickSchemeModel qsModel = null;
-      QuickSchemeAdapter qsAdapter = null;
       try {
         qsModel = new QuickSchemeModel();
 
-        /*Tester tester = new RandomTester(qsModel);
+        Tester tester = new RandomTester(qsModel);
         tester.buildGraph();
         tester.addListener(new VerboseListener());
         tester.addListener(new StopOnFailureListener());
@@ -49,7 +48,7 @@ public class QuickSchemeTest extends TestCase{
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
         tester.generate(200);
-        tester.printCoverage();*/
+        tester.printCoverage();
 
       }
       catch (Exception e) {

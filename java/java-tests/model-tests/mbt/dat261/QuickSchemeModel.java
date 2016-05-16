@@ -25,8 +25,13 @@ import nz.ac.waikato.modeljunit.FsmModel;
 public class QuickSchemeModel implements FsmModel {
 
   private enum State {Initialization, StandBy, CheckCS, CheckCSS, CheckKM, CheckLAF, CheckPM, CheckFS, CheckDFM}
-
   private State state = State.Initialization;
+
+  private QuickSchemeAdapter qsAdapter;
+
+  public QuickSchemeModel() throws Exception{
+    this.qsAdapter = new QuickSchemeAdapter();
+  }
 
   public Object getState() {
     return state;
@@ -122,6 +127,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void changedCSS() {
     state = State.StandBy;
+    qsAdapter.testSetScheme();
   }
 
   public boolean notChangedCSSGuard()

@@ -39,17 +39,17 @@ public class QuickSchemeTest extends TestCase{
       QuickSchemeModel qsModel = null;
       try {
         qsModel = new QuickSchemeModel();
-        Tester tester = new RandomTester(qsModel);
+        qsModel.changedCSS();
 
-        tester.buildGraph();
-        tester.addListener(new VerboseListener());
-        tester.addListener(new StopOnFailureListener());
-        tester.addCoverageMetric(new TransitionCoverage());
-        tester.addCoverageMetric(new StateCoverage());
-        tester.addCoverageMetric(new ActionCoverage());
-
-        tester.generate(200);
-        tester.printCoverage();
+        //Tester tester = new RandomTester(qsModel);
+        //tester.buildGraph();
+        //tester.addListener(new VerboseListener());
+        //tester.addListener(new StopOnFailureListener());
+        //tester.addCoverageMetric(new TransitionCoverage());
+        //tester.addCoverageMetric(new StateCoverage());
+        //tester.addCoverageMetric(new ActionCoverage());
+        //tester.generate(200);
+        //tester.printCoverage();
       }
       catch (Exception e) {
         e.printStackTrace();

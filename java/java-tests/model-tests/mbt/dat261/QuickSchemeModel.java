@@ -59,6 +59,7 @@ public class QuickSchemeModel implements FsmModel {
   public boolean selectCSGuard()
   {return state == State.StandBy;}
 
+
   @Action
   public void selectCS() {
     state = State.CheckCS;

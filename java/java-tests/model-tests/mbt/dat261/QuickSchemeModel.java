@@ -29,6 +29,8 @@ public class QuickSchemeModel implements FsmModel {
   private State state = State.Initialization;
 
   private QuickSchemeAdapter qsAdapter;
+
+  //TODO declare all the internal variable here
   private CodeStyleScheme currentCSS, selectedCSS;
 
   public QuickSchemeModel() throws Exception{

@@ -49,6 +49,7 @@ public class QuickSchemeTest extends TestCase{
         tester.addCoverageMetric(new ActionCoverage());
         tester.generate(200);
         tester.printCoverage();
+
       }
       catch (Exception e) {
         e.printStackTrace();

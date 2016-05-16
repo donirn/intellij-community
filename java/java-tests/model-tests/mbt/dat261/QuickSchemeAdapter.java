@@ -36,6 +36,9 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     //configureByFile("/model-based/DeadCode.java");
   }
 
+
+// CSS : Code Style Scheme
+
   public CodeStyleScheme getCurrentCSS(){
     return CodeStyleSchemes.getInstance().getCurrentScheme();
   }
@@ -52,6 +55,9 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
   public void setCSS(CodeStyleScheme scheme){
     CodeStyleSchemes.getInstance().setCurrentScheme(scheme);
   }
+
+
+// LightIntentionActionTestCase related codes
 
   @Override
   public String getName() {

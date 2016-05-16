@@ -40,8 +40,6 @@ public class QuickSchemeTest extends TestCase{
       QuickSchemeAdapter qsAdapter = null;
       try {
         qsModel = new QuickSchemeModel();
-        qsAdapter = new QuickSchemeAdapter();
-        qsAdapter.getRandomCS();
 
         /*Tester tester = new RandomTester(qsModel);
         tester.buildGraph();

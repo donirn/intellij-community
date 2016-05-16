@@ -24,6 +24,7 @@
     <orderEntry type="module" module-name="debugger-impl" />
     <orderEntry type="module" module-name="junit5_rt" />
     <orderEntry type="library" name="junit5_rt" level="project" />
+    <orderEntry type="library" name="modeljunit-2.5-jar-with-dependencies" level="project" />
   </component>
   <component name="copyright">
     <Base>

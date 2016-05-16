@@ -23,6 +23,9 @@ import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
 import java.util.List;
 import java.util.Random;
 
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
 /**
  * Created by doniramadhan on 16/05/16.
  */
@@ -53,7 +56,12 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
   }
 
   public void setCSS(CodeStyleScheme scheme){
+    CodeStyleScheme prevScheme = CodeStyleSchemes.getInstance().getCurrentScheme();
     CodeStyleSchemes.getInstance().setCurrentScheme(scheme);
+    CodeStyleScheme currScheme = CodeStyleSchemes.getInstance().getCurrentScheme();
+
+    assertThat(currScheme, is(scheme));
+    assertThat(currScheme, is(not(prevScheme)));
   }
 
 

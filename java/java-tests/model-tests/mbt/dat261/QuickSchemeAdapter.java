@@ -15,12 +15,23 @@
  */
 package mbt.dat261;
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzerSettings;
 import com.intellij.codeInsight.daemon.LightIntentionActionTestCase;
+import com.intellij.ide.ui.LafManager;
+import com.intellij.ide.ui.UISettings;
+import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.editor.ex.EditorSettingsExternalizable;
+import com.intellij.openapi.editor.ex.util.EditorUtil;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.registry.Registry;
+import com.intellij.openapi.util.registry.RegistryValue;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
@@ -28,6 +39,7 @@ import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
 import java.util.List;
 import java.util.Random;
 
+import static com.intellij.ide.actions.ToggleDistractionFreeModeAction.applyAndSave;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -130,6 +142,67 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
 
     assertThat(currKeymap, is(keymap));
     assertThat(currKeymap, is(prevKeymap));
+  }
+
+// DFM : Distraction Free Mode
+  private static final String DFM_KEY = "editor.distraction.free.mode";
+
+  public boolean getCurrentDFM(){
+    RegistryValue value = Registry.get(DFM_KEY);
+    return value.asBoolean();
+  }
+
+  public boolean selectDFM(){
+    int randomNumber = randomGenerator.nextInt(2);
+    return randomNumber > 0.5;
+  }
+
+  public void changedDFM(boolean dfm){
+    boolean prevDFM = Registry.get(DFM_KEY).asBoolean();
+    setDFM(dfm);
+    boolean currDFM = Registry.get(DFM_KEY).asBoolean();
+
+    assertThat(currDFM, is(dfm));
+    assertThat(currDFM, is(not(prevDFM)));
+  }
+
+  public void notChangedDFM(boolean dfm){
+    boolean prevDFM = Registry.get(DFM_KEY).asBoolean();
+    setDFM(dfm);
+    boolean currDFM = Registry.get(DFM_KEY).asBoolean();
+
+    assertThat(currDFM, is(dfm));
+    assertThat(currDFM, is(prevDFM));
+  }
+
+  private void setDFM(boolean dfm){
+    Project project = getProject();
+    RegistryValue value = Registry.get(DFM_KEY);
+    value.setValue(dfm);
+
+    if (project == null) return;
+
+    PropertiesComponent p = PropertiesComponent.getInstance();
+    UISettings ui = UISettings.getInstance();
+    EditorSettingsExternalizable.OptionSet eo = EditorSettingsExternalizable.getInstance().getOptions();
+    DaemonCodeAnalyzerSettings ds = DaemonCodeAnalyzerSettings.getInstance();
+
+    String before = "BEFORE.DISTRACTION.MODE.";
+    String after = "AFTER.DISTRACTION.MODE.";
+    if (dfm) {
+      applyAndSave(p, ui, eo, ds, before, after, false);
+      //TogglePresentationModeAction.storeToolWindows(project);
+    }
+    else {
+      applyAndSave(p, ui, eo, ds, after, before, true);
+      //TogglePresentationModeAction.restoreToolWindows(project, true, false);
+    }
+
+    UISettings.getInstance().fireUISettingsChanged();
+    LafManager.getInstance().updateUI();
+    EditorUtil.reinitSettings();
+    DaemonCodeAnalyzer.getInstance(project).settingsChanged();
+    EditorFactory.getInstance().refreshAllEditors();
   }
 
 // LightIntentionActionTestCase related codes

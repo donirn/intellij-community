@@ -34,6 +34,7 @@ public class QuickSchemeModel implements FsmModel {
   //TODO declare all the internal variable here
   private CodeStyleScheme currentCSS, selectedCSS;
   private Keymap currentKM, selectedKM;
+  private boolean currentDFM, selectedDFM;
 
   public QuickSchemeModel() throws Exception{
     this.qsAdapter = new QuickSchemeAdapter();
@@ -57,6 +58,7 @@ public class QuickSchemeModel implements FsmModel {
     // TODO get all the currentVars here
     currentCSS = qsAdapter.getCurrentCSS();
     currentKM = qsAdapter.getCurrentKM();
+    currentDFM = qsAdapter.getCurrentDFM();
   }
 
   public boolean selectCSGuard()
@@ -116,6 +118,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectDFM() {
     state = State.CheckDFM;
+    selectedDFM = qsAdapter.selectDFM();
   }
 
   public boolean changedCSGuard()
@@ -205,19 +208,22 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedDFMGuard()
-  {return state == State.CheckDFM;}
+  {return (state == State.CheckDFM) && (currentDFM != selectedDFM);}
 
   @Action
   public void changedDFM() {
     state = State.StandBy;
+    qsAdapter.changedDFM(selectedDFM);
+    currentDFM = selectedDFM;
   }
 
   public boolean notChangedDFMGuard()
-  {return state == State.CheckDFM;}
+  {return (state == State.CheckDFM) && (currentDFM == selectedDFM);}
 
   @Action
   public void notChangedDFM() {
     state = State.StandBy;
+    qsAdapter.notChangedDFM(selectedDFM);
   }
 
   public boolean changedFSGuard()

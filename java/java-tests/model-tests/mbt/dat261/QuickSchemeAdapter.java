@@ -18,9 +18,6 @@ package mbt.dat261;
 import com.intellij.codeInsight.daemon.LightIntentionActionTestCase;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
-import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
-
-import java.util.List;
 
 /**
  * Created by doniramadhan on 16/05/16.
@@ -34,41 +31,8 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     //configureByFile("/model-based/DeadCode.java");
   }
 
-  //public void addDeadCode() {
-  //  type("int b = 3;\n");
-  //
-  //  up();
-  //  myEditor.getCaretModel().getCurrentCaret().selectLineAtCaret();
-  //  String actualLine = myEditor.getCaretModel().getCurrentCaret().getSelectedText();
-  //  down();
-  //
-  //  String expectedLine = "      int b = 3;";
-  //
-  //  // To see an error, you can use the below assertion. Causes
-  //  //    TestFailureException: failure in action addDeadCode from state NoDeadCode due to junit.framework.ComparisonFailure: expected:<int b = 3;[
-  //  //    ]> but was:<int b = 3;[]>
-  //  // I.e. there's also a linebreak at the end of file.
-  //  //assertEquals(expectedLine, actualLine);
-  //
-  //  assertEquals(expectedLine + "\n", actualLine); // works
-  //
-  //  // use debugger and Alt+F8 to try out carret movement interactively
-  //  up();
-  //  right();
-  //  myEditor.getCaretModel().getCurrentCaret().selectWordAtCaret(false);
-  //
-  //  String actualWord = myEditor.getCaretModel().getCurrentCaret().getSelectedText();
-  //  String expectedWord = "int";
-  //  assertEquals(expectedWord, actualWord);
-  //}
-
-  public void testSetScheme(){
-    CodeStyleSchemes schemes = CodeStyleSchemes.getInstance();
-    CodeStyleScheme scheme = schemes.getCurrentScheme();
-    schemes.setCurrentScheme(scheme);
-
-    List<CodeStyleScheme> schemesList = CodeStyleSchemesImpl.getSchemeManager().getAllSchemes();
-    return;
+  public CodeStyleScheme getCurrentCSS(){
+    return CodeStyleSchemes.getInstance().getCurrentScheme();
   }
 
   @Override

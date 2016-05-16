@@ -19,6 +19,7 @@ package mbt.dat261;
  * Created by Mushfiqur on 5/9/2016.
  */
 
+import com.intellij.psi.codeStyle.CodeStyleScheme;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;
 
@@ -28,6 +29,7 @@ public class QuickSchemeModel implements FsmModel {
   private State state = State.Initialization;
 
   private QuickSchemeAdapter qsAdapter;
+  private CodeStyleScheme currentCSS, selectedCSS;
 
   public QuickSchemeModel() throws Exception{
     this.qsAdapter = new QuickSchemeAdapter();
@@ -47,6 +49,9 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void setDefault() {
     state = State.StandBy;
+
+    // TODO get all the currentVars here
+    currentCSS = qsAdapter.getCurrentCSS();
   }
 
   public boolean selectCSGuard()
@@ -127,7 +132,6 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void changedCSS() {
     state = State.StandBy;
-    qsAdapter.testSetScheme();
   }
 
   public boolean notChangedCSSGuard()

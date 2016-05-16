@@ -57,7 +57,9 @@ public class QuickSchemeTest extends TestCase{
       }
       finally {
         try {
-          qsModel.cleanup();
+          if (qsModel != null) {
+            qsModel.cleanup();
+          }
         }
         catch (Exception e) {
           e.printStackTrace();

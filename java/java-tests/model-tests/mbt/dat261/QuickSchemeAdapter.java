@@ -16,6 +16,9 @@
 package mbt.dat261;
 
 import com.intellij.codeInsight.daemon.LightIntentionActionTestCase;
+import com.intellij.openapi.editor.colors.EditorColorsManager;
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
+import com.intellij.openapi.editor.colors.impl.EditorColorsManagerImpl;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
@@ -52,8 +55,27 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     return schemes.get(randomNumber);
   }
 
-  public void setCSS(CodeStyleScheme scheme){
+  // CS : Color Scheme
+
+  public void setCS(CodeStyleScheme scheme){
     CodeStyleSchemes.getInstance().setCurrentScheme(scheme);
+  }
+
+  public EditorColorsScheme getCurrentCS(){
+    return EditorColorsManager.getInstance().getGlobalScheme();
+  }
+
+  public EditorColorsScheme getRandomCS(){
+    EditorColorsScheme[] schemes = EditorColorsManager.getInstance().getAllSchemes();
+
+    int size = schemes.length;
+    int randomNumber = randomGenerator.nextInt(size);
+
+    return schemes[randomNumber];
+  }
+
+  public void setCSS(EditorColorsScheme scheme){
+    EditorColorsManager.getInstance().setGlobalScheme(scheme);
   }
 
 

@@ -18,6 +18,10 @@ package mbt.dat261;
 import com.intellij.codeInsight.daemon.LightIntentionActionTestCase;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
+import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
+
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by doniramadhan on 16/05/16.
@@ -25,6 +29,7 @@ import com.intellij.psi.codeStyle.CodeStyleSchemes;
 
 @SuppressWarnings({"JUnitTestCaseWithNoTests", "JUnitTestCaseWithNonTrivialConstructors", "JUnitTestClassNamingConvention"})
 public class QuickSchemeAdapter extends LightIntentionActionTestCase {
+  private final Random randomGenerator = new Random();
   public QuickSchemeAdapter() throws Exception {
     super();
     super.setUp();
@@ -33,6 +38,19 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
 
   public CodeStyleScheme getCurrentCSS(){
     return CodeStyleSchemes.getInstance().getCurrentScheme();
+  }
+
+  public CodeStyleScheme getRandomCSS(){
+    List<CodeStyleScheme> schemes = CodeStyleSchemesImpl.getSchemeManager().getAllSchemes();
+
+    int size = schemes.size();
+    int randomNumber = randomGenerator.nextInt(size);
+
+    return schemes.get(randomNumber);
+  }
+
+  public void setCSS(CodeStyleScheme scheme){
+    CodeStyleSchemes.getInstance().setCurrentScheme(scheme);
   }
 
   @Override

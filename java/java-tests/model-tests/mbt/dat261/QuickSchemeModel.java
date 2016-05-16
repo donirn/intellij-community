@@ -221,4 +221,8 @@ public class QuickSchemeModel implements FsmModel {
   public void notChangedFS() {
     state = State.StandBy;
   }
+
+  public void cleanup() throws Exception {
+    qsAdapter.cleanup();
+  }
 }

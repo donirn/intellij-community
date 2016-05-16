@@ -55,17 +55,17 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     return schemes.get(randomNumber);
   }
 
-  // CS : Color Scheme
-
-  public void setCS(CodeStyleScheme scheme){
+  public void setCSS(CodeStyleScheme scheme){
     CodeStyleSchemes.getInstance().setCurrentScheme(scheme);
   }
+
+  // CS : Color Scheme
 
   public EditorColorsScheme getCurrentCS(){
     return EditorColorsManager.getInstance().getGlobalScheme();
   }
 
-  public EditorColorsScheme getRandomCS(){
+  public EditorColorsScheme selectCS(){
     EditorColorsScheme[] schemes = EditorColorsManager.getInstance().getAllSchemes();
 
     int size = schemes.length;
@@ -74,7 +74,7 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     return schemes[randomNumber];
   }
 
-  public void setCSS(EditorColorsScheme scheme){
+  public void setCS(EditorColorsScheme scheme){
     EditorColorsManager.getInstance().setGlobalScheme(scheme);
   }
 

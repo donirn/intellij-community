@@ -131,15 +131,17 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedCSSGuard()
-  {return state == State.CheckCSS;}
+  {return (state == State.CheckCSS) && (currentCSS != selectedCSS);}
 
   @Action
   public void changedCSS() {
     state = State.StandBy;
+    qsAdapter.setCSS(selectedCSS);
+    currentCSS = selectedCSS;
   }
 
   public boolean notChangedCSSGuard()
-  {return state == State.CheckCSS;}
+  {return (state == State.CheckCSS) && (currentCSS == selectedCSS);}
 
   @Action
   public void notChangedCSS() {

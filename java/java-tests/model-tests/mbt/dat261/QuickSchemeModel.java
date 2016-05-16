@@ -71,7 +71,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectCSS() {
     state = State.CheckCSS;
-    selectedCSS = qsAdapter.getRandomCSS();
+    selectedCSS = qsAdapter.selectCSS();
   }
 
   public boolean selectKMGuard()
@@ -136,7 +136,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void changedCSS() {
     state = State.StandBy;
-    qsAdapter.setCSS(selectedCSS);
+    qsAdapter.changedCSS(selectedCSS);
     currentCSS = selectedCSS;
   }
 
@@ -146,6 +146,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void notChangedCSS() {
     state = State.StandBy;
+    qsAdapter.notChangedCSS(selectedCSS);
   }
 
   public boolean changedKMGuard()

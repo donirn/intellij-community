@@ -19,6 +19,7 @@ package mbt.dat261;
  * Created by Mushfiqur on 5/9/2016.
  */
 
+import com.intellij.openapi.keymap.Keymap;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;
@@ -32,6 +33,7 @@ public class QuickSchemeModel implements FsmModel {
 
   //TODO declare all the internal variable here
   private CodeStyleScheme currentCSS, selectedCSS;
+  private Keymap currentKM, selectedKM;
 
   public QuickSchemeModel() throws Exception{
     this.qsAdapter = new QuickSchemeAdapter();
@@ -54,6 +56,7 @@ public class QuickSchemeModel implements FsmModel {
 
     // TODO get all the currentVars here
     currentCSS = qsAdapter.getCurrentCSS();
+    currentKM = qsAdapter.getCurrentKM();
   }
 
   public boolean selectCSGuard()
@@ -80,6 +83,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectKM() {
     state = State.CheckKM;
+    selectedKM = qsAdapter.selectKM();
   }
 
   public boolean selectLAFGuard()
@@ -150,19 +154,22 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedKMGuard()
-  {return state == State.CheckKM;}
+  {return (state == State.CheckKM) && (currentKM != selectedKM);}
 
   @Action
   public void changedKM() {
     state = State.StandBy;
+    qsAdapter.changedKM(selectedKM);
+    currentKM = selectedKM;
   }
 
   public boolean notChangedKMGuard()
-  {return state == State.CheckKM;}
+  {return (state == State.CheckKM) && (currentKM == selectedKM);}
 
   @Action
   public void notChangedKM() {
     state = State.StandBy;
+    qsAdapter.notChangedKM(selectedKM);
   }
 
   public boolean changedLAFGuard()

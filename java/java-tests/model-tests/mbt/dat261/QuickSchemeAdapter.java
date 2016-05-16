@@ -18,7 +18,9 @@ package mbt.dat261;
 import com.intellij.codeInsight.daemon.LightIntentionActionTestCase;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.colors.impl.EditorColorsManagerImpl;
+import com.intellij.openapi.keymap.Keymap;
+import com.intellij.openapi.keymap.KeymapManager;
+import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
@@ -95,6 +97,40 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     EditorColorsManager.getInstance().setGlobalScheme(scheme);
   }
 
+// KM : Keymap
+
+  public Keymap getCurrentKM(){
+    return KeymapManager.getInstance().getActiveKeymap();
+  }
+
+  public Keymap selectKM(){
+    Keymap[] keymaps = ((KeymapManagerEx)KeymapManager.getInstance()).getAllKeymaps();
+
+    int size = keymaps.length;
+    int randomNumber = randomGenerator.nextInt(size);
+
+    return keymaps[randomNumber];
+  }
+
+  public void changedKM(Keymap keymap){
+    KeymapManagerEx keymapManagerEx = (KeymapManagerEx)KeymapManager.getInstance();
+    Keymap prevKeymap = keymapManagerEx.getActiveKeymap();
+    keymapManagerEx.setActiveKeymap(keymap);
+    Keymap currKeymap = keymapManagerEx.getActiveKeymap();;
+
+    assertThat(currKeymap, is(keymap));
+    assertThat(currKeymap, is(not(prevKeymap)));
+  }
+
+  public void notChangedKM(Keymap keymap){
+    KeymapManagerEx keymapManagerEx = (KeymapManagerEx)KeymapManager.getInstance();
+    Keymap prevKeymap = keymapManagerEx.getActiveKeymap();
+    keymapManagerEx.setActiveKeymap(keymap);
+    Keymap currKeymap = keymapManagerEx.getActiveKeymap();;
+
+    assertThat(currKeymap, is(keymap));
+    assertThat(currKeymap, is(prevKeymap));
+  }
 
 // LightIntentionActionTestCase related codes
 

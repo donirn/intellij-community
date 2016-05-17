@@ -24,6 +24,8 @@ import com.intellij.psi.codeStyle.CodeStyleScheme;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;
 
+import javax.swing.UIManager.LookAndFeelInfo;
+
 public class QuickSchemeModel implements FsmModel {
 
   private enum State {Initialization, StandBy, CheckCS, CheckCSS, CheckKM, CheckLAF, CheckPM, CheckFS, CheckDFM}
@@ -35,6 +37,7 @@ public class QuickSchemeModel implements FsmModel {
   private CodeStyleScheme currentCSS, selectedCSS;
   private Keymap currentKM, selectedKM;
   private boolean currentDFM, selectedDFM;
+  private LookAndFeelInfo currentLaf, selectedLaf;
 
   public QuickSchemeModel() throws Exception{
     this.qsAdapter = new QuickSchemeAdapter();
@@ -59,6 +62,7 @@ public class QuickSchemeModel implements FsmModel {
     currentCSS = qsAdapter.getCurrentCSS();
     currentKM = qsAdapter.getCurrentKM();
     currentDFM = qsAdapter.getCurrentDFM();
+    currentLaf = qsAdapter.getCurrentLAF();
   }
 
   public boolean selectCSGuard()
@@ -94,6 +98,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectLAF() {
     state = State.CheckLAF;
+    selectedLaf = qsAdapter.selectLAF();
   }
 
   public boolean selectPMGuard()
@@ -176,19 +181,22 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedLAFGuard()
-  {return state == State.CheckLAF;}
+  {return (state == State.CheckLAF) && (currentLaf != selectedLaf);}
 
   @Action
   public void changedLAF() {
     state = State.StandBy;
+    qsAdapter.changedLAF(selectedLaf);
+    currentLaf = selectedLaf;
   }
 
   public boolean notChangedLAFGuard()
-  {return state == State.CheckLAF;}
+  {return (state == State.CheckLAF) && (currentLaf == selectedLaf);}
 
   @Action
   public void notChangedLAF() {
     state = State.StandBy;
+    qsAdapter.notChangedLAF(selectedLaf);
   }
 
   public boolean changedPMGuard()

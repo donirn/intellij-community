@@ -36,6 +36,7 @@ import com.intellij.psi.codeStyle.CodeStyleScheme;
 import com.intellij.psi.codeStyle.CodeStyleSchemes;
 import com.intellij.psi.impl.source.codeStyle.CodeStyleSchemesImpl;
 
+import javax.swing.UIManager.LookAndFeelInfo;
 import java.util.List;
 import java.util.Random;
 
@@ -203,6 +204,40 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     EditorUtil.reinitSettings();
     DaemonCodeAnalyzer.getInstance(project).settingsChanged();
     EditorFactory.getInstance().refreshAllEditors();
+  }
+
+  // LAF : Look And Feel
+
+  public LookAndFeelInfo getCurrentLAF(){
+    return LafManager.getInstance().getCurrentLookAndFeel();
+  }
+
+  public LookAndFeelInfo selectLAF(){
+    LookAndFeelInfo[] lafs = LafManager.getInstance().getInstalledLookAndFeels();
+
+    int size = lafs.length;
+    if(size == 0) return null;
+    int randomNumber = randomGenerator.nextInt(size);
+
+    return lafs[randomNumber];
+  }
+
+  public void changedLAF(LookAndFeelInfo laf){
+    LookAndFeelInfo prevLaf = LafManager.getInstance().getCurrentLookAndFeel();
+    LafManager.getInstance().setCurrentLookAndFeel(laf);
+    LookAndFeelInfo currLaf = LafManager.getInstance().getCurrentLookAndFeel();
+
+    assertThat(currLaf, is(laf));
+    assertThat(currLaf, is(not(prevLaf)));
+  }
+
+  public void notChangedLAF(LookAndFeelInfo laf){
+    LookAndFeelInfo prevLaf = LafManager.getInstance().getCurrentLookAndFeel();
+    LafManager.getInstance().setCurrentLookAndFeel(laf);
+    LookAndFeelInfo currLaf = LafManager.getInstance().getCurrentLookAndFeel();
+
+    assertThat(currLaf, is(laf));
+    assertThat(currLaf, is(prevLaf));
   }
 
 // LightIntentionActionTestCase related codes

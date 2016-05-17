@@ -247,8 +247,8 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     boolean currPM = UISettings.getInstance().PRESENTATION_MODE;
     boolean s = currPM;
 
-    //assertThat(currPM, is(pm));
-    //assertThat(currPM, is(prevPM));
+    assertThat(currPM, is(pm));
+    assertThat(currPM, is(prevPM));
   }
 
   private void setPM (boolean pm){

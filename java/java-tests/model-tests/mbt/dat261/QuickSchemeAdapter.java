@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.intellij.ide.actions.ToggleDistractionFreeModeAction.applyAndSave;
+import static com.intellij.ide.actions.TogglePresentationModeAction.setPresentationMode;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -218,6 +219,46 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     EditorUtil.reinitSettings();
     DaemonCodeAnalyzer.getInstance(project).settingsChanged();
     EditorFactory.getInstance().refreshAllEditors();
+  }
+
+  // PM : Presentation Mode
+
+  public boolean getCurrentPM(){
+    return UISettings.getInstance().PRESENTATION_MODE;
+  }
+
+  public boolean selectPM(){
+    int randomNumber = randomGenerator.nextInt(2);
+    return randomNumber > 0.5;
+  }
+
+  public void changedPM(boolean pm){
+    boolean prevPM = UISettings.getInstance().PRESENTATION_MODE;
+    setPM(pm);
+    boolean currPM = UISettings.getInstance().PRESENTATION_MODE;
+
+    assertThat(currPM, is(pm));
+    assertThat(currPM, is(not(prevPM)));
+  }
+
+  public void notChangedPM(boolean pm){
+    boolean prevPM = UISettings.getInstance().PRESENTATION_MODE;
+    setPM(pm);
+    boolean currPM = UISettings.getInstance().PRESENTATION_MODE;
+
+    assertThat(currPM, is(pm));
+    assertThat(currPM, is(prevPM));
+  }
+
+  private void setPM (boolean pm){
+
+    UISettings settings = UISettings.getInstance();
+    Project project = getProject();
+
+    if (project == null) return;
+
+    setPresentationMode(project, !settings.PRESENTATION_MODE);
+
   }
 
   // LAF : Look And Feel

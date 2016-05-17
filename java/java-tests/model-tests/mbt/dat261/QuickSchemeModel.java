@@ -39,6 +39,7 @@ public class QuickSchemeModel implements FsmModel {
   private CodeStyleScheme currentCSS, selectedCSS;
   private Keymap currentKM, selectedKM;
   private boolean currentDFM, selectedDFM;
+  private boolean currentPM, selectedPM;
   private LookAndFeelInfo currentLaf, selectedLaf;
 
   public QuickSchemeModel() throws Exception{
@@ -65,6 +66,7 @@ public class QuickSchemeModel implements FsmModel {
     currentCSS = qsAdapter.getCurrentCSS();
     currentKM = qsAdapter.getCurrentKM();
     currentDFM = qsAdapter.getCurrentDFM();
+    currentPM = qsAdapter.getCurrentPM();
     currentLaf = qsAdapter.getCurrentLAF();
   }
 
@@ -111,6 +113,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectPM() {
     state = State.CheckPM;
+    selectedPM = qsAdapter.selectPM();
   }
 
   public boolean selectFSGuard()
@@ -207,19 +210,22 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedPMGuard()
-  {return state == State.CheckPM;}
+  {return (state == State.CheckPM) && (currentPM != selectedPM);}
 
   @Action
   public void changedPM() {
     state = State.StandBy;
+    qsAdapter.changedPM(selectedPM);
+    currentPM = selectedPM;
   }
 
   public boolean notChangedPMGuard()
-  {return state == State.CheckPM;}
+  {return (state == State.CheckPM) && (currentPM == selectedPM);}
 
   @Action
   public void notChangedPM() {
     state = State.StandBy;
+    qsAdapter.notChangedPM(selectedPM);
   }
 
   public boolean changedDFMGuard()

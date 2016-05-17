@@ -19,6 +19,7 @@ package mbt.dat261;
  * Created by Mushfiqur on 5/9/2016.
  */
 
+import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.psi.codeStyle.CodeStyleScheme;
 import nz.ac.waikato.modeljunit.Action;
@@ -34,6 +35,7 @@ public class QuickSchemeModel implements FsmModel {
   private QuickSchemeAdapter qsAdapter;
 
   //TODO declare all the internal variable here
+  private EditorColorsScheme currentCS, selectedCS;
   private CodeStyleScheme currentCSS, selectedCSS;
   private Keymap currentKM, selectedKM;
   private boolean currentDFM, selectedDFM;
@@ -59,6 +61,7 @@ public class QuickSchemeModel implements FsmModel {
     state = State.StandBy;
 
     // TODO get all the currentVars here
+    currentCS = qsAdapter.getCurrentCS();
     currentCSS = qsAdapter.getCurrentCSS();
     currentKM = qsAdapter.getCurrentKM();
     currentDFM = qsAdapter.getCurrentDFM();
@@ -72,6 +75,7 @@ public class QuickSchemeModel implements FsmModel {
   @Action
   public void selectCS() {
     state = State.CheckCS;
+    selectedCS = qsAdapter.selectCS();
   }
 
   public boolean selectCSSGuard()
@@ -127,19 +131,22 @@ public class QuickSchemeModel implements FsmModel {
   }
 
   public boolean changedCSGuard()
-  {return state == State.CheckCS;}
+  {return (state == State.CheckCS) && (currentCS != selectedCS) ;}
 
   @Action
   public void changedCS() {
     state = State.StandBy;
+    qsAdapter.changedCS(selectedCS);
+    currentCS = selectedCS;
   }
 
   public boolean notChangedCSGuard()
-  {return state == State.CheckCS;}
+  {return (state == State.CheckCS) && (currentCS == selectedCS);}
 
   @Action
   public void notChangedCS() {
     state = State.StandBy;
+    qsAdapter.notChangedCS(selectedCS);
   }
 
   public boolean changedCSSGuard()

@@ -106,8 +106,22 @@ public class QuickSchemeAdapter extends LightIntentionActionTestCase {
     return schemes[randomNumber];
   }
 
-  public void setCS(EditorColorsScheme scheme){
+  public void changedCS(EditorColorsScheme scheme){
+    EditorColorsScheme prevScheme = EditorColorsManager.getInstance().getGlobalScheme();
     EditorColorsManager.getInstance().setGlobalScheme(scheme);
+    EditorColorsScheme currScheme = EditorColorsManager.getInstance().getGlobalScheme();
+
+    assertThat(currScheme, is(scheme));
+    assertThat(currScheme, is(not(prevScheme)));
+  }
+
+  public void notChangedCS(EditorColorsScheme scheme){
+    EditorColorsScheme prevScheme = EditorColorsManager.getInstance().getGlobalScheme();
+    EditorColorsManager.getInstance().setGlobalScheme(scheme);
+    EditorColorsScheme currScheme = EditorColorsManager.getInstance().getGlobalScheme();
+
+    assertThat(currScheme, is(scheme));
+    assertThat(currScheme, is(prevScheme));
   }
 
 // KM : Keymap

@@ -27,8 +27,7 @@ import nz.ac.waikato.modeljunit.VerboseListener;
 import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 import nz.ac.waikato.modeljunit.coverage.StateCoverage;
 import nz.ac.waikato.modeljunit.coverage.TransitionCoverage;
-import org.junit.Test;
-import mbt.dat261.QuickSchemeModel;
+import nz.ac.waikato.modeljunit.coverage.TransitionPairCoverage;
 
 import javax.swing.*;
 
@@ -44,6 +43,7 @@ public class QuickSchemeTest extends TestCase{
         tester.buildGraph();
         tester.addListener(new VerboseListener());
         tester.addListener(new StopOnFailureListener());
+        tester.addCoverageMetric(new TransitionPairCoverage());
         tester.addCoverageMetric(new TransitionCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());

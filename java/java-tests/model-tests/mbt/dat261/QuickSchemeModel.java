@@ -52,6 +52,20 @@ public class QuickSchemeModel implements FsmModel {
 
   public void reset(boolean b) {
     state = State.Initialization;
+
+    currentCS = null;
+    currentCSS = null;
+    currentKM = null;
+    currentDFM = false;
+    currentPM = false;
+    currentLaf = null;
+
+    selectedCS = null;
+    selectedCSS = null;
+    selectedKM = null;
+    selectedDFM = false;
+    selectedPM = false;
+    selectedLaf = null;
   }
 
   public boolean setDefaultGuard()

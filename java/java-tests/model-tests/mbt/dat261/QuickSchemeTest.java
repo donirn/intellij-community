@@ -20,10 +20,7 @@ package mbt.dat261;
  */
 
 import junit.framework.TestCase;
-import nz.ac.waikato.modeljunit.RandomTester;
-import nz.ac.waikato.modeljunit.StopOnFailureListener;
-import nz.ac.waikato.modeljunit.Tester;
-import nz.ac.waikato.modeljunit.VerboseListener;
+import nz.ac.waikato.modeljunit.*;
 import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 import nz.ac.waikato.modeljunit.coverage.StateCoverage;
 import nz.ac.waikato.modeljunit.coverage.TransitionCoverage;
@@ -39,7 +36,7 @@ public class QuickSchemeTest extends TestCase{
       try {
         qsModel = new QuickSchemeModel();
 
-        Tester tester = new RandomTester(qsModel);
+        Tester tester = new GreedyTester(qsModel);
         tester.buildGraph();
         tester.addListener(new VerboseListener());
         tester.addListener(new StopOnFailureListener());
@@ -47,7 +44,7 @@ public class QuickSchemeTest extends TestCase{
         tester.addCoverageMetric(new TransitionCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
-        tester.generate(200);
+        tester.generate(2000);
         tester.printCoverage();
 
       }

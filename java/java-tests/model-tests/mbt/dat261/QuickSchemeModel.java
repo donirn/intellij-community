@@ -29,7 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 public class QuickSchemeModel implements FsmModel {
 
-  private enum State {Initialization, StandBy, CheckCS, CheckCSS, CheckKM, CheckLAF, CheckPM, CheckFS, CheckDFM}
+  private enum State {Initialization, StandBy, CheckCS, CheckCSS, CheckKM, CheckLAF, CheckPM, CheckDFM}
   private State state = State.Initialization;
 
   private QuickSchemeAdapter qsAdapter;
@@ -128,14 +128,6 @@ public class QuickSchemeModel implements FsmModel {
   public void selectPM() {
     state = State.CheckPM;
     selectedPM = qsAdapter.selectPM();
-  }
-
-  public boolean selectFSGuard()
-  {return state == State.StandBy;}
-
-  @Action
-  public void selectFS() {
-    state = State.CheckFS;
   }
 
   public boolean selectDFMGuard()
@@ -259,22 +251,6 @@ public class QuickSchemeModel implements FsmModel {
   public void notChangedDFM() {
     state = State.StandBy;
     qsAdapter.notChangedDFM(selectedDFM);
-  }
-
-  public boolean changedFSGuard()
-  {return state == State.CheckFS;}
-
-  @Action
-  public void changedFS() {
-    state = State.StandBy;
-  }
-
-  public boolean notChangedFSGuard()
-  {return state == State.CheckFS;}
-
-  @Action
-  public void notChangedFS() {
-    state = State.StandBy;
   }
 
   public void cleanup() throws Exception {
